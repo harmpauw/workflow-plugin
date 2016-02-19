@@ -21,11 +21,6 @@ node {
 }
 
 input message: "Does ${jettyUrl}staging/ look good?"
-try {
-    checkpoint('Before production')
-} catch (NoSuchMethodError _) {
-    echo 'Checkpoint feature available in CloudBees Jenkins Enterprise.'
-}
 
 stage name: 'Production', concurrency: 1
 node {
@@ -34,6 +29,9 @@ node {
     deploy 'production'
     echo "Deployed to ${jettyUrl}production/"
 }
+
+
+// Helper functions
 
 def mvn(args) {
     sh "${tool 'Maven 3.x'}/bin/mvn ${args}"
